@@ -10259,6 +10259,11 @@ html:has(.drawer-open.drawer-open) {
   padding-right: 1rem;
 }
 
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 .ps-3 {
   padding-inline-start: 0.75rem;
 }
@@ -10271,6 +10276,11 @@ html:has(.drawer-open.drawer-open) {
 .text-5xl {
   font-size: 3rem;
   line-height: 1;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 
 .font-bold {
