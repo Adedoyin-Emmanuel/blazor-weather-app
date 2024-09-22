@@ -5,9 +5,12 @@
   "main": "tailwind.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tailwind":"npx tailwindcss -i ./wwwroott/app.css -o ./src/output.css --watch"
+    "tailwind": "npx tailwindcss -i ./wwwroot/app.css -o ./wwwroot/output.css --watch"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "daisyui": "^4.12.10"
+  }
 }
