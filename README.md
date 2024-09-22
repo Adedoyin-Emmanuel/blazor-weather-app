@@ -7,7 +7,7 @@ This is a simple Blazor Web App that uses the OpenWeatherMap API to get the curr
 1. Blazor
 2. C#
 3. Tailwindcss and Daisy UI
-4. OpennWeatherMap API
+4. OpenWeatherMap API
 
 ## Resouces
 
