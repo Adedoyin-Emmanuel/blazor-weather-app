@@ -1,0 +1,13 @@
+{
+  "name": "blazorweatherapp",
+  "version": "1.0.0",
+  "description": "This is a simple Blazor Web App that uses the OpenWeatherMap API to get the current weather of a country, city or location. I built this app to learn the Blazor framework and to practice my C# skills.",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tailwind":"npx tailwindcss -i ./wwwroott/app.css -o ./src/output.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
