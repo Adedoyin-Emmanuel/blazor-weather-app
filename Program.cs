@@ -1,4 +1,5 @@
 using BlazorWeatherApp.Components;
+using BlazorWeatherApp.Services;
 using dotenv.net;
 
 DotEnv.Load();
@@ -10,10 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+
 builder.Services.AddScoped(sp => new HttpClient
 {
     BaseAddress = new Uri(envVars["BASE_URL"])
 });
+
+
+builder.Services.AddScoped<WeatherService>();
 
 
 var app = builder.Build();

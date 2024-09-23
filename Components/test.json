@@ -1,0 +1,33 @@
+{
+  "coord": { "lon": 3.3014, "lat": 6.6854 },
+  "weather": [
+    { "id": 500, "main": "Rain", "description": "light rain", "icon": "10d" }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 31.84,
+    "feels_like": 37.3,
+    "temp_min": 31.84,
+    "temp_max": 31.84,
+    "pressure": 1011,
+    "humidity": 62,
+    "sea_level": 1011,
+    "grnd_level": 1005
+  },
+  "visibility": 10000,
+  "wind": { "speed": 6.17, "deg": 200 },
+  "rain": { "1h": 0.28 },
+  "clouds": { "all": 75 },
+  "dt": 1727092609,
+  "sys": {
+    "type": 1,
+    "id": 1185,
+    "country": "NG",
+    "sunrise": 1727069751,
+    "sunset": 1727113339
+  },
+  "timezone": 3600,
+  "id": 2338876,
+  "name": "Alagbado",
+  "cod": 200
+}

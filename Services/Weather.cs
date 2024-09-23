@@ -23,7 +23,7 @@ public class WeatherService
     {
         try
         {
-            var response = await httpClient.GetAsync($"/data/2.5/weather?lat={data.Latitude}&lon={data.Longitude}&appid={apiKey}");
+            var response = await httpClient.GetAsync($"/data/2.5/weather?lat={data.Latitude}&lon={data.Longitude}&appid={apiKey}&units=metric");
 
             return response.Content;
         }
@@ -37,7 +37,7 @@ public class WeatherService
     {
         try
         {
-            var response = await httpClient.GetAsync($"/data/2.5/weather?q={location}&appid={apiKey}");
+            var response = await httpClient.GetAsync($"/data/2.5/weather?q={location}&appid={apiKey}&units=metric");
 
             return response.Content;
         }
