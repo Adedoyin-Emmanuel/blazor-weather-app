@@ -10189,6 +10189,14 @@ html:has(.drawer-open.drawer-open) {
   isolation: isolate;
 }
 
+.z-\[1\] {
+  z-index: 1;
+}
+
+.mt-3 {
+  margin-top: 0.75rem;
+}
+
 .block {
   display: block;
 }
@@ -10229,6 +10237,26 @@ html:has(.drawer-open.drawer-open) {
   display: none;
 }
 
+.w-10 {
+  width: 2.5rem;
+}
+
+.w-24 {
+  width: 6rem;
+}
+
+.w-52 {
+  width: 13rem;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
+}
+
+.flex-none {
+  flex: none;
+}
+
 .flex-shrink {
   flex-shrink: 1;
 }
@@ -10245,8 +10273,33 @@ html:has(.drawer-open.drawer-open) {
   resize: both;
 }
 
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.rounded-box {
+  border-radius: var(--rounded-box, 1rem);
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
 .border {
   border-width: 1px;
+}
+
+.bg-base-100 {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
+}
+
+.p-2 {
+  padding: 0.5rem;
 }
 
 .px-3 {
@@ -10280,6 +10333,11 @@ html:has(.drawer-open.drawer-open) {
 
 .text-lg {
   font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
   line-height: 1.75rem;
 }
 
@@ -10389,5 +10447,11 @@ html:has(.drawer-open.drawer-open) {
   .table-zebra .disabled\:hover:disabledtr:nth-child(even):hover {
     --tw-bg-opacity: 1;
     background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:w-auto {
+    width: auto;
   }
 }
