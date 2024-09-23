@@ -1,17 +1,42 @@
 ﻿@page "/"
+@rendermode InteractiveServer
+@inject NavigationManager router
+@inject IJSRuntime jsRuntime
 
-<PageTitle>Weather App</PageTitle>
+<dialog id="locationModal" class="modal" open>
+    <div class="modal-box">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <h3 class="text-lg font-bold">Enter Your Location</h3>
+        <input type="text" @bind="userLocation" placeholder="City or Country" class="input w-full my-2" />
+        <br/>
+        <button class="btn w-full mt-3" @onclick="SaveLocationAsync">Save</button>
+    </div>
+</dialog>
 
-<div class="w-screen h-screenw flex items-center justify-center flex-col my-4 overflow-x-hidden">
-    <Weather/>
+@code {
+  private string userLocation = string.Empty;
 
-    <br/>
-    <br/>
-   
-   <div class="flex gap-3 flex-wrap justify-between">
-     <Forecast/>
-   </div>
-
-
-   <button class="btn my-4">Get my location</button>
-</div>
+  public async Task SaveLocationAsync()
+  {
+    try
+    {
+      if (!string.IsNullOrEmpty(userLocation))
+      {
+        await jsRuntime.InvokeVoidAsync("localStorage.setItem", "userLocation", userLocation);
+        await jsRuntime.InvokeVoidAsync("showAlert", "Success!", "Your location has been saved.", "success");
+        router.NavigateTo("/app");
+      }
+        else
+          {
+              await jsRuntime.InvokeVoidAsync("showAlert", "Error!", "Please enter a valid location", "error");
+          }
+        }
+        catch (Exception ex)
+        {
+            await jsRuntime.InvokeVoidAsync("showAlert", "Error!", "Oh dear. An unknown error occured!", "error");
+            Console.WriteLine($"Error saving location: {ex.Message}");
+        }
+    }
+}

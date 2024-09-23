@@ -10,11 +10,24 @@
     <link rel="stylesheet" href="output.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <HeadOutlet />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
     <Routes />
     <script src="_framework/blazor.web.js"></script>
+
+    <script>
+        window.showAlert = (title, text, icon) => {
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: icon,
+                confirmButtonText: 'Okay'
+                
+            });
+        };
+    </script>
 </body>
 
 </html>

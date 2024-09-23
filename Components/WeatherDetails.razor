@@ -1,7 +1,8 @@
 @using System.Text.Json;
+@rendermode InteractiveServer
 @using BlazorWeatherApp.Interfaces
 @inject WeatherService weatherService
-@rendermode InteractiveServer
+@inject IJSRuntime jsRuntime
 
 
 
@@ -38,11 +39,23 @@
 @code{
 
   private JsonElement? weatherData;
-  protected override async Task OnInitializedAsync()
-  {
-    var response  = await weatherService.GetSeachedLocationWeather("Alakuko");
-    var jsonString = await response.ReadAsStringAsync();
+    private bool isLocationFetched = false; 
 
-    weatherData = JsonSerializer.Deserialize<dynamic>(jsonString);
-  }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !isLocationFetched)
+        {
+            isLocationFetched = true;
+
+            var defaultLocation = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "userLocation");
+            if (!string.IsNullOrEmpty(defaultLocation))
+            {
+                var response = await weatherService.GetSeachedLocationWeather(defaultLocation);
+                var jsonString = await response.ReadAsStringAsync();
+
+                weatherData = JsonSerializer.Deserialize<JsonElement>(jsonString);
+                StateHasChanged();
+            }
+        }
+    }
 }   
