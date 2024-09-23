@@ -1,16 +1,22 @@
-﻿<div class="navbar bg-base-100">
+﻿@rendermode InteractiveServer
+@inject IJSRuntime jsRuntime
+@inject NavigationManager router
+
+
+
+<div class="navbar bg-base-100">
   <div class="flex-1">
     <a class="text-2xl font-bold" href="/">Blazor</a>
   </div>
   <div class="flex-none gap-2">
-    <div class="form-control">
-      <input type="text" placeholder="Search a city" class="input input-bordered w-32 md:w-auto" />
-    </div>
+    <form class="form-control" @onsubmit="SaveLocationAsync">
+      <input type="text" @bind="userLocation" placeholder="Search a city" class="input input-bordered w-32 md:w-auto" />
+    </form>
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
           <img
-            alt="Tailwind CSS Navbar component"
+            alt="Adedoyin Emmanuel's Picture"
             src="https://github.com/adedoyin-emmanuel.png" />
         </div>
       </div>
@@ -28,3 +34,23 @@
     </div>
   </div>
 </div>
+
+
+
+@code{
+  private string userLocation = string.Empty;
+
+  public async Task SaveLocationAsync(){
+    try{
+      if (!string.IsNullOrEmpty(userLocation)){
+        
+        router.NavigateTo($"/app?location={userLocation}", true);
+      }else{
+        await jsRuntime.InvokeVoidAsync("showAlert", "Error!", "Please enter a valid location", "error");
+      }
+    }catch (Exception ex){
+      await jsRuntime.InvokeVoidAsync("showAlert", "Error!", "Oh dear. An unknown error occured!", "error");
+      Console.WriteLine($"Error saving location: {ex.Message}");
+    }
+  }
+}

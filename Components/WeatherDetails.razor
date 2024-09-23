@@ -3,6 +3,7 @@
 @using BlazorWeatherApp.Interfaces
 @inject WeatherService weatherService
 @inject IJSRuntime jsRuntime
+@inject NavigationManager router
 
 
 
@@ -38,8 +39,22 @@
 
 @code{
 
-    private JsonElement? weatherData;
-    private bool isLocationFetched = false; 
+  private JsonElement? weatherData;
+  private bool isLocationFetched = false; 
+  private string queryParameters = string.Empty;
+
+
+
+protected override void OnInitialized() {
+    var uri = new Uri(router.Uri);
+    var query = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
+
+    if (query.TryGetValue("location", out var location)) {
+        queryParameters = location.ToString();  
+    } else {
+        queryParameters = "Location not found"; 
+    }
+}
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -47,7 +62,7 @@
         {
             isLocationFetched = true;
 
-            var defaultLocation = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "userLocation");
+            var defaultLocation = queryParameters ?? await jsRuntime.InvokeAsync<string>("localStorage.getItem", "userLocation");
             if (!string.IsNullOrEmpty(defaultLocation))
             {
                 var response = await weatherService.GetSeachedLocationWeather(defaultLocation);
