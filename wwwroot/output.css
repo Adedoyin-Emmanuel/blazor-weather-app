@@ -10249,6 +10249,14 @@ html:has(.drawer-open.drawer-open) {
   width: 13rem;
 }
 
+.w-2 {
+  width: 0.5rem;
+}
+
+.w-32 {
+  width: 8rem;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -10339,6 +10347,11 @@ html:has(.drawer-open.drawer-open) {
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .font-bold {
@@ -10453,5 +10466,21 @@ html:has(.drawer-open.drawer-open) {
 @media (min-width: 768px) {
   .md\:w-auto {
     width: auto;
+  }
+
+  .md\:w-3 {
+    width: 0.75rem;
+  }
+
+  .md\:w-32 {
+    width: 8rem;
+  }
+
+  .md\:w-1\/2 {
+    width: 50%;
+  }
+
+  .md\:w-full {
+    width: 100%;
   }
 }
