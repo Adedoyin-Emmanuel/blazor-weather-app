@@ -47,4 +47,20 @@ public class WeatherService
             throw new Exception("An error occured while making that request");
         }
     }
+
+    public async Task<HttpContent> GetWeatherForecast(string location)
+    {
+        try
+        {
+            var response = await httpClient.GetAsync($"/data/2.5/forecast?q={location}&appid={apiKey}&units=metric");
+
+            return response.Content;
+        }
+        catch (Exception)
+        {
+
+            throw new Exception("An error occured while making that request");
+        }
+    }
+
 }
