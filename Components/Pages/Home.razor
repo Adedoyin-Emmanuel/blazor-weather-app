@@ -2,6 +2,20 @@
 
 <PageTitle>Weather App</PageTitle>
 
-<div class="w-screen h-screen  flex items-center justify-center">
+<div class="w-screen h-screen flex items-center justify-center flex-col my-4 overflow-x-hidden">
     <Weather/>
+
+    <br/>
+    <br/>
+   
+   <div class="flex gap-3 flex-wrap">
+     <Forecast/>
+     <Forecast/>
+     <Forecast/>
+     <Forecast/>
+     <Forecast/>
+   </div>
+
+
+   <button class="btn my-4">Get my location</button>
 </div>
