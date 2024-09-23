@@ -1,8 +1,87 @@
-<div class="flex items-center flex-col  p-3 border rounded-md cursor-pointer">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun my-2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-    <h2 class="text-2xl font-extrabold my-2">23°</h2>
-    <hr/>
-    <p class="text-sm text-gray-500 ">Monday</p>
-</div>
+@page "/weather"
+@using System.Text.Json
+@inject WeatherService weatherService
+@rendermode InteractiveServer
 
+@if (forecastData.HasValue && forecastData.Value.ValueKind != JsonValueKind.Undefined)
+{
+    // Today's forecast
+    var todayForecast = forecastData.Value.GetProperty("list").EnumerateArray().Take(8).ToList();
 
+    foreach (var forecast in todayForecast)
+    {
+        <div class="flex items-center flex-col p-3 border rounded-md cursor-pointer w-24" @onclick="@(() => ShowModal(forecast))">
+            <img src="https://openweathermap.org/img/wn/@forecast.GetProperty("weather")[0].GetProperty("icon")@@4x.png" alt="Weather Icon" />
+            <h2 class="text-[1.2rem] font-extrabold my-2">@Math.Round(forecast.GetProperty("main").GetProperty("temp").GetDouble()) °C</h2>
+            <hr/>
+            <p class="text-sm text-gray-500 ">@ConvertTo12HourFormat(forecast.GetProperty("dt_txt").ToString())</p>
+        </div>
+    }
+
+    // Modal
+    if (selectedForecast.HasValue)
+    {
+        <dialog id="forecastModal" class="modal" open>
+            <div class="modal-box">
+                <form method="dialog" @onclick="() => CloseModal()">
+                    <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
+                
+                <div class="flex items-ceter gap-8">
+                    <div class="">
+                        <img  src="https://openweathermap.org/img/wn/@selectedForecast.Value.GetProperty("weather")[0].GetProperty("icon")@@4x.png" alt="Weather Icon"  />
+                    </div>
+                    <div>
+                        <h1 class="font-extrabold text-4xl">@((int)Math.Round(selectedForecast.Value.GetProperty("main").GetProperty("temp").GetDouble()))° C</h1>
+                        <div >
+                        <div class="flex items-center my-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin">
+                                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <p class="block">@forecastData.Value.GetProperty("city").GetProperty("name"), @forecastData.Value.GetProperty("city").GetProperty("country")</p>
+                        </div>
+                            <p class="block capitalize text-sm ">@selectedForecast.Value.GetProperty("weather")[0].GetProperty("description")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+    }
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    private JsonElement? forecastData;
+    private JsonElement? selectedForecast;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var forecastResponse = await weatherService.GetWeatherForecast("Nigeria");
+        var forecastJsonString = await forecastResponse.ReadAsStringAsync();
+        forecastData = JsonSerializer.Deserialize<JsonElement>(forecastJsonString);
+    }
+
+    protected static string ConvertTo12HourFormat(string dateTimeString)
+    {
+        if (DateTime.TryParse(dateTimeString, out DateTime dateTime))
+        {
+            return dateTime.ToString("h tt").ToUpper();
+        }
+        return "Invalid Time"; 
+    }
+
+    private void ShowModal(JsonElement forecast)
+    {
+        selectedForecast = forecast;
+        StateHasChanged(); 
+    }
+
+    private void CloseModal()
+    {
+        selectedForecast = null; 
+    }
+}

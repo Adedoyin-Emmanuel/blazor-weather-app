@@ -41,10 +41,8 @@
   protected override async Task OnInitializedAsync()
   {
     var response  = await weatherService.GetSeachedLocationWeather("Alakuko");
-
     var jsonString = await response.ReadAsStringAsync();
 
     weatherData = JsonSerializer.Deserialize<dynamic>(jsonString);
-
   }
 }   
