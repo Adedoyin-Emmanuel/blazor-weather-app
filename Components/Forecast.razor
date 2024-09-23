@@ -1,7 +1,8 @@
 @page "/weather"
+@rendermode InteractiveServer
 @using System.Text.Json
 @inject WeatherService weatherService
-@rendermode InteractiveServer
+@inject IJSRuntime jsRuntime
 
 @if (forecastData.HasValue && forecastData.Value.ValueKind != JsonValueKind.Undefined)
 {
@@ -51,18 +52,31 @@
 }
 else
 {
-    <p>Loading...</p>
+   <span class="loading loading-spinner loading-md"></span>
 }
 
 @code {
     private JsonElement? forecastData;
     private JsonElement? selectedForecast;
 
-    protected override async Task OnInitializedAsync()
+    private bool isLocationFetched = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var forecastResponse = await weatherService.GetWeatherForecast("Nigeria");
-        var forecastJsonString = await forecastResponse.ReadAsStringAsync();
-        forecastData = JsonSerializer.Deserialize<JsonElement>(forecastJsonString);
+        if(firstRender && !isLocationFetched){
+            isLocationFetched = true;
+
+            var defaultLocation = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "userLocation");
+
+            if(!string.IsNullOrEmpty(defaultLocation))
+            {
+                var response = await weatherService.GetWeatherForecast(defaultLocation);
+                var jsonString = await response.ReadAsStringAsync();
+                forecastData = JsonSerializer.Deserialize<JsonElement>(jsonString);
+                StateHasChanged();
+            }
+        }
+       
     }
 
     protected static string ConvertTo12HourFormat(string dateTimeString)

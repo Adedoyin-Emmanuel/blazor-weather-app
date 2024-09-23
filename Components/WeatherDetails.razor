@@ -31,14 +31,14 @@
 </div>
 
 }else{
-    <p>Loading...</p>
+    <span class="loading loading-spinner loading-md"></span>
 } 
 
 
 
 @code{
 
-  private JsonElement? weatherData;
+    private JsonElement? weatherData;
     private bool isLocationFetched = false; 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
