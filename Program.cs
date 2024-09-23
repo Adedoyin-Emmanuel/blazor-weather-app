@@ -1,10 +1,19 @@
 using BlazorWeatherApp.Components;
+using dotenv.net;
 
+DotEnv.Load();
+
+var envVars = DotEnv.Read();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped(sp => new HttpClient
+{
+    BaseAddress = new Uri(envVars["BASE_URL"])
+});
 
 
 var app = builder.Build();
