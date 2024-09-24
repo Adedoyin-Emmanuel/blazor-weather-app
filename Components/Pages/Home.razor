@@ -23,7 +23,7 @@
       {
         await jsRuntime.InvokeVoidAsync("localStorage.setItem", "userLocation", userLocation);
         await jsRuntime.InvokeVoidAsync("showAlert", "Success!", "Your location has been saved.", "success");
-        router.NavigateTo("/app");
+        router.NavigateTo($"/app?location={userLocation}");
       }
         else
           {
